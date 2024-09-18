@@ -1,41 +1,74 @@
- Import the Google API Client Library
-const { google } = require('googleapis');
 
- Set up your Google Sheets API credentials
-const apiKey = 'YOUR_API_KEY';
-const sheetId = 'YOUR_SHEET_ID';
-const range = 'Sheet1!A1B2';  Adjust this to the range you want to read
+var logoutButton = document.getElementById('lgtbtn');
 
- Set up the Google Sheets API client
-const sheets = google.sheets({ version 'v4', auth apiKey });
+logoutButton.addEventListener('click', function() {
+    window.location.href = 'Login.html';
+});
 
- Get the data from the Google Sheet
-async function getSheetData() {
-    try {
-        const response = await sheets.spreadsheets.values.get({
-            spreadsheetId sheetId,
-            range range,
-        });
-        const data = response.data.values;
-        return data;
-    } catch (error) {
-        console.error(error);
-    }
-}
-
- Display the data on the website
-async function displaySheetData() {
-    const data = await getSheetData();
-    const sheetDataDiv = document.getElementById('sheet-data');
-    sheetDataDiv.innerHTML = '';
-    data.forEach((row) = {
-        const rowDiv = document.createElement('div');
-        rowDiv.textContent = row.join(', ');
-        sheetDataDiv.appendChild(rowDiv);
+let arrow = document.querySelectorAll(".arrow");
+console.log(arrow);
+for (var i = 0; i < arrow.length; i++) {
+    arrow[i].addEventListener("click", (e)=>{
+        console.log(e);
+    let arrowParent = e.target.parentElement.parentElement;
+    console.log(arrowParent);
+    arrowParent.classList.toggle("showMenu");
     });
 }
 
- Link to the Google Sheet
-document.getElementById('link-to-sheet').addEventListener('click', () = {
-    displaySheetData();
+let sidebar = document.querySelector(".sidebar");
+let sidebarBtn = document.querySelector(".bx-menu-alt-left");
+console.log(sidebarBtn);
+sidebarBtn.addEventListener("click", ()=>{
+    sidebar.classList.toggle("close");
+})
+
+// form container
+
+let iconLinks = document.querySelectorAll('.icon-link[data-name="about"], .icon-link[data-name="contact"]');
+let formContainers = document.querySelectorAll('.about-form-container, .contact-form-container');
+
+let closeIcons = document.querySelectorAll('.close-icon');
+
+
+function hideAllFormContainers() {
+    formContainers.forEach(container => {
+        container.classList.remove('show');
+    });
+}
+
+iconLinks.forEach((iconLink, index) => {
+    iconLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        
+        hideAllFormContainers();
+        
+        // Toggle the visibility of the corresponding form container
+        formContainers[index].classList.toggle('show');
+    });
 });
+
+// Loop through each close icon
+closeIcons.forEach((closeIcon, index) => {
+    // Add click event listener to each close icon
+    closeIcon.addEventListener('click', function() {
+        // Hide the corresponding form container
+        formContainers[index].classList.remove('show');
+    });
+});
+
+/* dropdown for about */
+
+let aboutDropdowns = document.querySelectorAll('.about-dropdown');
+
+aboutDropdowns.forEach((aboutDropdown) => {
+    aboutDropdown.addEventListener('click', function() {
+        let submenu = this.nextElementSibling; // Select the next element, which is the submenu
+        submenu.classList.toggle('show');
+        let arrowIcon = this.querySelector('.arrowdowm'); // Select the arrow icon within the clicked dropdown
+        arrowIcon.classList.toggle('rotate'); // Toggle rotation class
+    });
+});
+
+
+
